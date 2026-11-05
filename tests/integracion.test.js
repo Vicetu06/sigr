@@ -262,7 +262,7 @@ describe('M03 - Pedidos y M05 - Caja (flujo login -> pedido -> pago -> cierre)',
 });
 
 describe('M04 - Reservas', () => {
-  test('rechaza reserva duplicada y permite reservar de nuevo tras cancelar', async () => {
+  test('rechaza reserva duplicada o solapada y permite reservar de nuevo tras cancelar', async () => {
     const cliente = await iniciarSesion('cliente@sigr.test');
     const fecha = '2030-06-15';
 
@@ -276,6 +276,11 @@ describe('M04 - Reservas', () => {
       token: cliente, body: { fecha, hora: '19:00', personas: 4, mesa_id: 3 },
     });
     assert.equal(duplicada.status, 409, 'reservar una mesa ya ocupada se rechaza');
+
+    const solapada = await llamar('POST', '/reservas', {
+      token: cliente, body: { fecha, hora: '20:00', personas: 4, mesa_id: 3 },
+    });
+    assert.equal(solapada.status, 409, 'se solapa con la reserva de las 19:00');
 
     const otraHora = await llamar('POST', '/reservas', {
       token: cliente, body: { fecha, hora: '21:30', personas: 4, mesa_id: 3 },

@@ -1,6 +1,9 @@
 import { pool } from '../config/db.js';
 import { HttpError } from '../middlewares/errores.js';
 
+// Duracion asumida de una reserva (minutos). Dos reservas de la misma mesa no pueden solaparse.
+export const DURACION_MIN = 120;
+
 export async function obtener(id) {
   const [filas] = await pool.query(
     `SELECT r.*, m.numero AS mesa_numero, u.nombre AS cliente
@@ -26,7 +29,7 @@ export async function listar({ usuarioId, fecha } = {}) {
   return filas;
 }
 
-// Mesas con capacidad suficiente y sin una reserva activa en la misma fecha y hora
+// Mesas con capacidad suficiente y sin reservas activas que se solapen con el horario pedido
 export async function mesasDisponibles(fecha, hora, personas) {
   const [filas] = await pool.query(
     `SELECT m.* FROM mesas m
@@ -34,10 +37,10 @@ export async function mesasDisponibles(fecha, hora, personas) {
        AND NOT EXISTS (
          SELECT 1 FROM reservas r
          WHERE r.mesa_id = m.id AND r.fecha = ? AND r.estado <> 'cancelada'
-           AND r.hora = ?
+           AND ABS(TIME_TO_SEC(TIMEDIFF(r.hora, ?))) < ? * 60
        )
      ORDER BY m.capacidad, m.numero`,
-    [personas, fecha, hora],
+    [personas, fecha, hora, DURACION_MIN],
   );
   return filas;
 }
