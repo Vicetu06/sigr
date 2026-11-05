@@ -1,0 +1,62 @@
+:root {
+  --color-primario: #b5451b;
+  --color-fondo: #faf6f1;
+  --color-texto: #2b2b2b;
+  --color-borde: #e2d8cc;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--color-fondo); color: var(--color-texto); }
+
+.navbar {
+  display: flex; align-items: center; gap: 1.5rem; padding: 0.75rem 1.5rem;
+  background: var(--color-primario); color: #fff;
+}
+.navbar nav { display: flex; gap: 1rem; flex: 1; }
+.navbar a { color: #fff; text-decoration: none; padding: 0.25rem 0.5rem; border-radius: 4px; }
+.navbar a.active { background: rgba(255, 255, 255, 0.25); }
+.marca { font-size: 1.25rem; letter-spacing: 0.05em; }
+.usuario { display: flex; align-items: center; gap: 0.5rem; }
+
+.contenido { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+
+.tarjeta {
+  background: #fff; border: 1px solid var(--color-borde); border-radius: 8px;
+  padding: 1rem; margin-bottom: 1rem;
+}
+.tarjeta img { max-width: 100%; height: 140px; object-fit: cover; border-radius: 6px; }
+.tarjeta.agotado { opacity: 0.55; }
+
+.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.dos-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; align-items: start; }
+.panel-admin { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 2rem; }
+
+.formulario { display: flex; flex-direction: column; gap: 0.75rem; max-width: 420px; }
+.formulario label, label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; }
+input, select, button { font: inherit; padding: 0.45rem 0.6rem; border-radius: 6px; border: 1px solid var(--color-borde); }
+
+button {
+  background: var(--color-primario); color: #fff; border: none; cursor: pointer;
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.pequeno { padding: 0.25rem 0.5rem; font-size: 0.8rem; }
+button.peligro { background: #a12a2a; }
+button.enlace { background: none; color: var(--color-primario); text-decoration: underline; }
+.acciones { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
+
+.error { background: #fde8e8; color: #8a1f1f; padding: 0.6rem 0.8rem; border-radius: 6px; }
+.aviso { background: #e6f4ea; color: #1e5e32; padding: 0.6rem 0.8rem; border-radius: 6px; cursor: pointer; }
+
+.lista { list-style: none; padding: 0; }
+.lista li { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--color-borde); }
+.contador { display: flex; align-items: center; gap: 0.5rem; }
+
+.pedido.estado-pendiente { border-left: 6px solid #d9a400; }
+.pedido.estado-en_preparacion { border-left: 6px solid #2a6fb0; }
+.pedido.estado-listo { border-left: 6px solid #2a9d4b; }
+.pedido.estado-entregado, .pedido.estado-cancelado { opacity: 0.6; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 1rem; }
+th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--color-borde); }
+caption { text-align: left; font-weight: 600; padding: 0.4rem 0; }
